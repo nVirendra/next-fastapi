@@ -18,3 +18,24 @@ def create_user(user: UserCreate) -> UserRead:
 def get_users() -> list[UserRead]:
     users = user_collection.find()
     return [UserRead(id=str(u["_id"]), name=u["name"], email=u["email"]) for u in users]
+
+
+def get_user_by_id(user_id: str) -> UserRead | None:
+    user = user_collection.find_one({"_id": ObjectId(user_id)})
+    if user:
+        return UserRead(id=str(user["_id"]), name=user["name"], email=user["email"])
+    return None
+
+
+def update_user(user_id: str, user: UserCreate) -> UserRead | None:
+    result = user_collection.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": user.dict()}
+    )
+    if result.matched_count == 0:
+        return None
+    return get_user_by_id(user_id)
+
+def delete_user(user_id: str) -> bool:
+    result = user_collection.delete_one({"_id": ObjectId(user_id)})
+    return result.deleted_count == 1
