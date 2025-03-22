@@ -1,6 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
+from typing import List, Optional
 from app.schemas.user import UserCreate, UserRead
-from app.services.user_service import create_user, get_users,get_user_by_id,update_user,delete_user
+from app.services.user_service import (
+    create_user, get_users, get_user_by_id,
+    update_user, delete_user
+)
 
 router = APIRouter()
 
@@ -8,10 +12,13 @@ router = APIRouter()
 def create(user: UserCreate):
     return create_user(user)
 
-@router.get("/users", response_model=list[UserRead])
-def read_users():
-    return get_users()
-
+@router.get("/users", response_model=List[UserRead])
+def read_users(
+    skip: int = 0,
+    limit: int = 10,
+    search: Optional[str] = Query(None, description="Search by name or email")
+):
+    return get_users(skip=skip, limit=limit, search=search)
 
 @router.get("/users/{user_id}", response_model=UserRead)
 def read_user(user_id: str):
