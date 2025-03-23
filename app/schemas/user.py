@@ -1,8 +1,8 @@
-from pydantic import BaseModel, EmailStr
 
-class UserCreate(BaseModel):
-    name: str
-    email: EmailStr
+from app.db.models.user_model import User
 
-class UserRead(UserCreate):
+class UserCreate(User):
+    pass
+
+class UserRead(User):
     id: str
