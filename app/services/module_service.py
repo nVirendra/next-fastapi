@@ -1,5 +1,14 @@
+from fastapi import HTTPException
+from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
+from typing import List, Optional
+import re
+
+from app.core.config import MONGO_URI, DB_NAME
 from app.schemas.module_schema import ModuleCreate, ModuleRead
 
+client = AsyncIOMotorClient(MONGO_URI)
+db = client[DB_NAME]
 module_collection = db["modules"]
 
 async def create_module(data: ModuleCreate) -> ModuleRead:

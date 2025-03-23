@@ -1,5 +1,14 @@
+from fastapi import HTTPException
+from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
+from typing import List, Optional
+import re
+
+from app.core.config import MONGO_URI, DB_NAME
 from app.schemas.menu_schema import MenuCreate, MenuRead
 
+client = AsyncIOMotorClient(MONGO_URI)
+db = client[DB_NAME]
 menu_collection = db["menus"]
 
 async def create_menu(data: MenuCreate) -> MenuRead:
