@@ -36,7 +36,11 @@ async def get_users(skip: int = 0, limit: int = 10, search: Optional[str] = None
         UserRead(
             id=str(u["_id"]),
             name=u["name"],
-            email=u["email"]
+            email=u["email"],
+            first_name=u["first_name"],
+            last_name=u["last_name"],
+            role_id=u["role_id"],
+            phone_no=u["phone_no"],
         )
         for u in users
     ]

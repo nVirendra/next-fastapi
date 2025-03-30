@@ -1,4 +1,3 @@
-
 from app.db.models.user_model import User
 
 class UserCreate(User):
@@ -6,3 +5,4 @@ class UserCreate(User):
 
 class UserRead(User):
     id: str
+    

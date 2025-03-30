@@ -1,7 +1,7 @@
-class RoleCreate(BaseModel):
-    name: str
-    description: Optional[str] = None
-    active: bool = True
+from app.db.models.role_model import Role
 
-class RoleRead(RoleCreate):
+class RoleCreate(Role):
+    pass
+
+class RoleRead(Role):
     id: str
