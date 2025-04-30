@@ -3,6 +3,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from typing import List, Optional
 import re
+from datetime import datetime
+
 
 from app.core.config import MONGO_URI, DB_NAME
 from app.schemas.business_schema import BusinessCreate, BusinessRead
@@ -17,6 +19,14 @@ async def create_business(data: BusinessCreate) -> BusinessRead:
         raise HTTPException(status_code=400, detail="Business email already exists")
 
     data_dict = data.dict()
+    data_dict["createdAt"] = datetime.utcnow()
+    data_dict["updatedAt"] = datetime.utcnow()
+
+    # Convert IDs to ObjectId for Mongo
+    data_dict["business_type"] = ObjectId(data_dict["business_type"])
+    data_dict["business_category"] = ObjectId(data_dict["business_category"])
+    data_dict["address"]["country"] = ObjectId(data_dict["address"]["country"])
+    
     result = await business_collection.insert_one(data_dict)
     data_dict["id"] = str(result.inserted_id)
     return BusinessRead(**data_dict)
