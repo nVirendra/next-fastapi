@@ -1,7 +1,7 @@
-fastapi
-pymongo
-pydantic
 uvicorn[standard]
-python-dotenv
+fastapi
+bson
 pydantic[email]
-pytest
+motor
+python-dotenv
+pydantic
