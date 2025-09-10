@@ -1,16 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes.v1 import role, user, master, menu, module
+from app.api.routes.v1 import role, user,new_user, master, menu, module
 
 app = FastAPI(title="HRMS Super Admin API", version="1.0.0")
 
 # Mount versioned API routers
 app.include_router(role.router, prefix="/api/v1")
 app.include_router(user.router, prefix="/api/v1")
+app.include_router(new_user.router, prefix="/api/v1")
 app.include_router(master.router, prefix="/api/v1")
 app.include_router(menu.router, prefix="/api/v1")
 app.include_router(module.router, prefix="/api/v1")
+
 
 #  CORS middleware
 app.add_middleware(
